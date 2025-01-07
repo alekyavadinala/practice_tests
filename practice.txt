@@ -1,0 +1,85 @@
+1.-----> Print sum of each item digits untill it becomes single digit
+
+lst = [2678942, 449, 567, 892]
+sum = 0
+res = []
+for i in lst:
+    while i > 0 or sum > 9:
+        if i == 0:
+            i = sum
+            sum = 0
+        sum += i % 10
+        i //= 10
+    res.append(sum)
+print(res)
+
+2.-----> Print factorial of given number
+
+def fact_num(n):
+    if n==0:
+        return 1
+    else:
+        return n * fact_num(n-1)      
+num = 5
+res = fact_num(num)
+print(res)
+
+3.-----> Print largest number in given list
+
+lst = [10, 26, 47, 89]
+larg = lst[0]
+for i in lst:
+    if i > larg:
+        larg = i
+print(larg)
+
+4.-----> Print list of each element and its occurance
+
+nums = [1, 2, 3, 2, 1, 3, 2, 4, 5, 4]
+count = {}
+
+for i in nums:
+    if i in count:
+        count[i] += 1
+    else:
+        count[i] = 1
+print(count)
+
+5.----->Print prime numbers in given range
+
+for n in range(1, 21):
+    if n >1:
+        for i in range(2, n):
+             if n%i ==0:
+                 break
+         else:
+             print(n)
+
+6.-----> Sort the given list using bubble sort
+
+elements = [5, 2, 8, 1, 9]
+n = len(elements)
+for i in range(n - 1):
+    for j in range(n - i - 1):
+        if elements[j] > elements[j + 1]:
+            elements[j], elements[j + 1] = elements[j + 1], elements[j]
+
+print(elements)
+
+
+7.-----> Find a second largest number in given list
+
+nums = [10, 5, 8, 20, 3]
+largest = nums[0]
+second_largest = nums[-1]
+for num in nums:
+    if num > largest:
+        second_largest = largest
+        largest = num
+    elif num > second_largest and num != largest:
+        second_largest = num
+    
+print(second_largest)
+
+
+
