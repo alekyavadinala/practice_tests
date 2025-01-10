@@ -1,0 +1,175 @@
+01) Given an array nums of distinct integers, return all the possible Permutations. You can return the answer in any order.
+Example 1:
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+Example 2:
+Input: nums = [0,1]
+Output: [[0,1],[1,0]]
+Example 3:
+Input: nums = [1]
+Output: [[1]]
+
+Sol:---------------
+
+from itertools import permutations
+
+def list_permutations(lst):
+    com = list(permutations(lst))
+    res = [list(i) for i in com]
+    return res
+    
+input_lst = [1,2,3]
+per_obj = list_permutations(input_lst)
+print(per_obj)
+
+03) Given an integer array nums, find a subarray that has the largest product, and return the product.The test cases are generated so that the answer will fit in a 32-bit integer.
+Example 1:
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+Sol:------------------
+
+nums = [2,3,-2,4]
+maxProduct = nums[0]
+minProduct = nums[0]
+result = nums[0]
+for i in range(1, len(nums)):
+        if nums[i] < 0:
+            maxProduct, minProduct = minProduct , maxProduct 
+        maxProduct = max(nums[i], maxProduct * nums[i])
+        minProduct = min(nums[i], minProduct * nums[i])
+        result = max(result, maxProduct)
+print(result)
+
+04) You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+You may assume that you have an infinite number of each kind of coin.
+Example 1:
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+Example 2:
+Input: coins = [2], amount = 3
+Output: -1
+Example 3:
+Input: coins = [1], amount = 0
+Output: 0
+
+Sol:------------------------
+
+coins = [1, 2, 5]
+amount = 11
+
+dp = [[0] * (amount + 1) for _ in range(len(coins))]
+for i in range(len(coins) - 1, -1, -1):
+    for j in range(1, amount + 1):
+        dp[i][j] = float('inf')
+        take = float('inf')
+        noTake = float('inf')
+
+        if j - coins[i] >= 0:
+            take = dp[i][j - coins[i]]
+            if take != float('inf'):
+                take += 1
+
+        if i + 1 < len(coins):
+            noTake = dp[i + 1][j]
+
+        dp[i][j] = min(take, noTake)
+
+if dp[0][amount] != float('inf'):
+    print (dp[0][amount])
+    
+else:
+    print (-1)
+
+07) Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+Example 1:
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+Example 3:
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+
+Sol:-----------
+
+def wordBreak(word_list, word):
+    if not word:
+        return True
+    word_len = len(word)
+    for i in range(1, word_len + 1):
+        prefix = word[:i]
+        if prefix in word_list and wordBreak(word_list, word[i:]):
+            return True
+    return False
+
+wordList =  ["apple","pen"]
+result = wordBreak(wordList, "applepenapple")
+print(result)
+
+08) Given a string containing just the characters '(' and ')', return the length of the longest valid (well-formed) parentheses substring
+Example 1:
+Input: s = "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()".
+Example 2:
+Input: s = ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()".
+Example 3:
+Input: s = ""
+Output: 0
+
+Sol:--------------
+
+s = ")()())"
+n = len(s)
+f = [0] * (n + 1)
+for i, c in enumerate(s, 1):
+    if c == ")":
+        if i > 1 and s[i - 2] == "(":
+            f[i] = f[i - 2] + 2
+        else:
+            j = i - f[i - 1] - 1
+            if j and s[j - 1] == "(":
+                f[i] = f[i - 1] + 2 + f[j - 1]
+print(max(f))
+
+10) Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.You must solve this problem without using the library's sort function.
+Example 1:
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+Example 2:
+Input: nums = [2,0,1]
+Output: [0,1,2]
+
+Sol:---------
+nums = [2,0,2,1,1,0]
+i=0
+dic = {
+'0': nums.count(0),
+'1': nums.count(1),
+'2': nums.count(2)
+}
+while i<len(nums):
+    if i<dic['0']:
+        nums[i] = 0
+    elif i<dic['0']+dic['1']:
+        nums[i] = 1
+    else:
+        nums[i] = 2
+    i+=1
+    
+print(nums)
